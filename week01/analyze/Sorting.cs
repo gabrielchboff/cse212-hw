@@ -5,6 +5,7 @@
         Console.Out.WriteLine("int[]{{{0}}}", string.Join(", ", numbers)); //int[]{1, 2, 3, 4, 6, 8, 9}
     }
 
+    // This function has O(n * n + 1) = O(1n²) => O(n²)
     private static void SortArray(int[] data) {
         for (var sortPos = data.Length - 1; sortPos >= 0; sortPos--) {
             for (var swapPos = 0; swapPos < sortPos; ++swapPos) {
