@@ -39,10 +39,21 @@ public class TakingTurnsQueue
         }
         else
         {
+            //The main problem was in the GetNextPerson()
+            //method where we were only enqueuing a person back
+            //into the queue if they had more than 1 turn left.
+            //This was causing the queue to lose track of people
+            //who had exactly 1 turn remaining.
+            //Added a check to only decrement the turn counter if it's
+            //greater than 0 (to avoid decrementing negative values)
+            //The person is now properly enqueued back into the
+            //queue unless they've used up all their turns
+            
             Person person = _people.Dequeue();
-            if (person.Turns > 1)
+            if (person.Turns > 1 || person.Turns <= 0)
             {
-                person.Turns -= 1;
+                if (person.Turns > 0)
+                    person.Turns--;
                 _people.Enqueue(person);
             }
 

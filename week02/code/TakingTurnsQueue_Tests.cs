@@ -35,6 +35,21 @@ public class TakingTurnsQueueTests
 
             var person = players.GetNextPerson();
             Assert.AreEqual(expectedResult[i].Name, person.Name);
+            //The main problem was in the GetNextPerson()
+            //method where we were only enqueuing a person back
+            //into the queue if they had more than 1 turn left.
+            //This was causing the queue to lose track of people
+            //who had exactly 1 turn remaining.
+            //Added a check to only decrement the turn counter if it's
+            //greater than 0 (to avoid decrementing negative values)
+            //The person is now properly enqueued back into the
+            //queue unless they've used up all their turns
+            
+            // The method before was Insert() not Add.
+            // The Insert() adds in the front of the list
+            // Braking the concept behind Queues operating
+            // LIFO instead of FIFO
+            
             i++;
         }
     }
