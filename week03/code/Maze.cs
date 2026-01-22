@@ -32,7 +32,17 @@ public class Maze
     /// </summary>
     public void MoveLeft()
     {
-        // FILL IN CODE
+        // Access the current position in the maze map using the tuple (_currX, _currY)
+        // The bool array at this position contains [left, right, up, down]
+        // Index 0 represents whether we can move LEFT
+        // If the value is false, there's a wall to the left
+        if (!_mazeMap[(_currX, _currY)][0])
+            throw new InvalidOperationException("Can't go that way!");
+        
+        // If we reach here, the move is valid (no wall)
+        // Moving left means decreasing the x-coordinate
+        // Example: from (3, 2) we move to (2, 2)
+        _currX--;
     }
 
     /// <summary>
@@ -41,7 +51,10 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        // The same idea applies here
+        if (!_mazeMap[(_currX, _currY)][1])
+            throw new InvalidOperationException("Can't go that way!");
+        _currX++;
     }
 
     /// <summary>
@@ -50,7 +63,9 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+        if (!_mazeMap[(_currX, _currY)][2])
+            throw new InvalidOperationException("Can't go that way!");
+        _currY--;
     }
 
     /// <summary>
@@ -59,7 +74,9 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        if (!_mazeMap[(_currX, _currY)][3])
+            throw new InvalidOperationException("Can't go that way!");
+        _currY++;
     }
 
     public string GetStatus()

@@ -21,8 +21,36 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // HashSet to track words we've processed to find symmetric pairs
+        // Using HashSet for O(1) average case lookups
+        var seen = new HashSet<string>();
+        var result = new List<string>();
+
+        // Process each word in the input array
+        foreach (string word in words)
+        {
+            // Skip words with identical characters as they can't form symmetric pairs
+            // ("aa" would only pair with itself, which would be a duplicate)
+            if (word[0] == word[1])
+                continue;
+
+            // Create the reverse of the current word (e.g., "am" -> "ma")
+            string reversed = $"{word[1]}{word[0]}";
+            
+            // If we've already seen the reversed word, we've found a symmetric pair
+            if (seen.Contains(reversed))
+            {
+                // Add the pair in the format "word1 & word2"
+                result.Add($"{reversed} & {word}");
+            }
+            else
+            {
+                // Add current word to the set for future lookups
+                seen.Add(word);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -38,11 +66,37 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
+        // Initialize a dictionary to store degree counts
         var degrees = new Dictionary<string, int>();
+
+        // Process each line in the file
         foreach (var line in File.ReadLines(filename))
         {
-            var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            // Split the CSV line into individual fields
+            var fields = line.Split(',');
+        
+            // Ensure the line has at least 4 columns (0-3)
+            if (fields.Length > 3) 
+            {
+                // Extract and clean the degree from the 4th column (index 3)
+                string degree = fields[3].Trim();
+            
+                // Skip empty degree entries
+                if (!string.IsNullOrEmpty(degree))
+                {
+                    // Update the count for this degree in the dictionary
+                    if (degrees.ContainsKey(degree))
+                    {
+                        // Increment count if degree already exists
+                        degrees[degree]++;
+                    }
+                    else
+                    {
+                        // Initialize count to 1 for new degrees
+                        degrees[degree] = 1;
+                    }
+                }
+            }
         }
 
         return degrees;
@@ -66,8 +120,46 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        if (word1 == null || word2 == null)
+            return false;
+
+        // Dictionary to count character frequencies
+        var charCount = new Dictionary<char, int>();
+
+        // Process word1: increment counts (ignore whitespace, use lowercase)
+        foreach (char c in word1)
+        {
+            if (!char.IsWhiteSpace(c))
+            {
+                char lower = char.ToLower(c);
+                if (charCount.ContainsKey(lower))
+                    charCount[lower]++;
+                else
+                    charCount[lower] = 1;
+            }
+        }
+
+        // Process word2: decrement counts (ignore whitespace, use lowercase)
+        foreach (char c in word2)
+        {
+            if (!char.IsWhiteSpace(c))
+            {
+                char lower = char.ToLower(c);
+                if (charCount.ContainsKey(lower))
+                    charCount[lower]--;
+                else
+                    charCount[lower] = -1;
+            }
+        }
+
+        // Check if all counts are zero
+        foreach (var count in charCount.Values)
+        {
+            if (count != 0)
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>
