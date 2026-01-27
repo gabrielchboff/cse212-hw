@@ -1,4 +1,4 @@
-﻿public class SimpleQueue {
+public class SimpleQueue {
     public static void Run() {
         // Test Cases
 
@@ -66,8 +66,9 @@
         if (_queue.Count <= 0)
             throw new IndexOutOfRangeException();
 
-        var value = _queue[1];
-        _queue.RemoveAt(1);
+        var lastIndex = _queue.Count - 1;
+        var value = _queue[lastIndex];
+        _queue.RemoveAt(lastIndex);
         return value;
     }
 }

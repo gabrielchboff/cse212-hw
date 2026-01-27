@@ -5,17 +5,25 @@
 public class CustomerService {
     public static void Run() {
         // Example code to see what's in the customer service queue:
-        // var cs = new CustomerService(10);
+        //var cs = new CustomerService(10);
         // Console.WriteLine(cs);
 
         // Test Cases
 
         // Test 1
-        // Scenario: 
+        // Scenario: The user shall specify the maximum size of the Customer Service Queue when it is created. If the size is invalid (less than or equal to 0) then the size shall default to 10.
         // Expected Result: 
+        var cs = new CustomerService(-5);
+        var cs2 = new CustomerService(0);
+        var cs3 = new CustomerService(40);
+        var cs4 = new CustomerService(7);
         Console.WriteLine("Test 1");
 
         // Defect(s) Found: 
+        Console.WriteLine(cs);
+        Console.WriteLine(cs2);
+        Console.WriteLine(cs3);
+        Console.WriteLine(cs4);
 
         Console.WriteLine("=================");
 
@@ -24,11 +32,32 @@ public class CustomerService {
         // Expected Result: 
         Console.WriteLine("Test 2");
 
+        cs.AddNewCustomer();
+        Console.WriteLine(cs);
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
+        Console.WriteLine("Test 3");
+        
+        // Defect(s) Found: 
+        var cs5 = new CustomerService(2);
+        cs5.AddNewCustomer();
+        Console.WriteLine(cs5);
+        cs5.AddNewCustomer();
+        Console.WriteLine(cs5);
+        cs5.AddNewCustomer();
+        Console.WriteLine(cs5);
 
+        Console.WriteLine("=================");
         // Add more Test Cases As Needed Below
+        
+        Console.WriteLine("=================");
+        Console.WriteLine("Test 4");
+        
+        // Defect(s) Found: 
+        cs2.ServeCustomer();
+
+        Console.WriteLine("=================");
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +96,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
